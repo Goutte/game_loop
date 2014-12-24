@@ -66,7 +66,6 @@ class GameLoopIsolate extends GameLoop {
     if (_interrupt == true) {
       return;
     }
-    _frameCounter++;
     _previousFrameTime = _frameTime;
     _frameTime = time;
     double timeDelta = _frameTime - _previousFrameTime;
@@ -79,6 +78,7 @@ class GameLoopIsolate extends GameLoop {
     }
 
     while (_accumulatedTime >= updateTimeStep) {
+      _frameCounter++;
       _gameTime += updateTimeStep;
       processTimers();
       if (onUpdate != null) {
