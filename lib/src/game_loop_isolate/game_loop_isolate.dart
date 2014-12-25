@@ -41,14 +41,10 @@ class GameLoopIsolate extends GameLoop {
 
   /** Current time. */
   double get time => GameLoop.timeStampToSeconds(_watch.elapsedMicroseconds / 1000.0);
-  Stopwatch _watch;
-  Duration _duration;
+  Stopwatch _watch = new Stopwatch();
 
   /** Construct a new game loop */
-  GameLoopIsolate() : super() {
-    _watch = new Stopwatch();
-    _duration = new Duration(milliseconds: (updateTimeStep*1000.0).toInt());
-  }
+  GameLoopIsolate() : super();
 
   void _processInputEvents() {
   }
@@ -59,7 +55,7 @@ class GameLoopIsolate extends GameLoop {
       _frameTime = time;
       _previousFrameTime = _frameTime;
       _processInputEvents();
-      new Timer(_duration, _update);
+      new Timer(new Duration(milliseconds: (updateTimeStep*1000.0).toInt()), _update);
       return;
     }
     if (_interrupt == true) {
@@ -85,7 +81,7 @@ class GameLoopIsolate extends GameLoop {
       }
       _accumulatedTime -= updateTimeStep;
     }
-    new Timer(_duration, _update);
+    new Timer(new Duration(milliseconds: (updateTimeStep*1000.0).toInt()), _update);
   }
 
   /** Start the game loop. */
