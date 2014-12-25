@@ -22,7 +22,6 @@ part of game_loop_isolate;
 
 /** The game loop */
 class GameLoopIsolate extends GameLoop {
-  bool _initialized = false;
   bool _interrupt = false;
   int _frameCounter = 0;
   double _previousFrameTime;
@@ -91,12 +90,14 @@ class GameLoopIsolate extends GameLoop {
 
   /** Start the game loop. */
   void start() {
+    _interrupt = false;
     _watch.start();
     Timer.run(_update);
-
   }
+
   /** Stop the game loop. */
   void stop() {
+    _interrupt = true;
     _watch.stop();
   }
 }
