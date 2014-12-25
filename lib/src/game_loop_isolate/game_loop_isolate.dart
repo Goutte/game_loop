@@ -46,15 +46,11 @@ class GameLoopIsolate extends GameLoop {
   /** Construct a new game loop */
   GameLoopIsolate() : super();
 
-  void _processInputEvents() {
-  }
-
   double _timeLost = 0.0;
   void _update() {
     if (_previousFrameTime == null) {
       _frameTime = time;
       _previousFrameTime = _frameTime;
-      _processInputEvents();
       new Timer(new Duration(milliseconds: (updateTimeStep*1000.0).toInt()), _update);
       return;
     }
