@@ -78,10 +78,15 @@ class GameLoopIsolate extends GameLoop {
       _accumulatedTime -= updateTimeStep;
     }
 
-    // Calculate the time we need to schedule the next frame in.
-    double remainingTime = Math.max(updateTimeStep - (time - _frameTime), 0.0);
+    _wait();
+  }
 
-    new Timer(new Duration(milliseconds: (remainingTime * 1000.0).toInt()), _update);
+  void _wait() {
+    if((time - _frameTime) < updateTimeStep) {
+      new Timer(new Duration(milliseconds: 1), _wait);
+    } else {
+      Timer.run(_update);
+    }
   }
 
   /** Start the game loop. */
