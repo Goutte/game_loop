@@ -78,11 +78,15 @@ class GameLoopIsolate extends GameLoop {
       _accumulatedTime -= updateTimeStep;
     }
 
+    // We may have to wait till we run the next frame to keep a stable frame rate
     _wait();
   }
 
   void _wait() {
+    // Do we have to wait till we schedule the next frame?
     if((time - _frameTime) < updateTimeStep) {
+      // While we now how long we have to wait till the next frame, we only wait 1 milliseconds.
+      // Experiments showed that waiting longer seems to cause problems with CPU sleep states.
       new Timer(new Duration(milliseconds: 1), _wait);
     } else {
       Timer.run(_update);
