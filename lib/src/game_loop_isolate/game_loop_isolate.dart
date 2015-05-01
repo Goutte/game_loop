@@ -27,7 +27,6 @@ class GameLoopIsolate extends GameLoop {
   double _previousFrameTime;
   double _frameTime = 0.0;
   double get frameTime => _frameTime;
-  double _nextResize = 0.0;
 
   double _accumulatedTime = 0.0;
   /** Seconds of accumulated time. */

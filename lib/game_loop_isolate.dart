@@ -21,7 +21,6 @@
 library game_loop_isolate;
 
 import 'dart:async';
-import 'dart:math' as Math;
 import 'package:game_loop/game_loop_common.dart';
 export 'package:game_loop/game_loop_common.dart';
 
