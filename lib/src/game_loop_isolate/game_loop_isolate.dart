@@ -78,6 +78,10 @@ class GameLoopIsolate extends GameLoop {
       _accumulatedTime -= updateTimeStep;
     }
 
+    if (onAfterFrame != null) {
+      onAfterFrame(this);
+    }
+
     // We may have to wait till we run the next frame to keep a stable frame rate
     _wait();
   }

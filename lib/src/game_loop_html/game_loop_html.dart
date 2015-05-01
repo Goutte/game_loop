@@ -274,6 +274,10 @@ class GameLoopHtml extends GameLoop {
       _renderInterpolationFactor = _accumulatedTime/updateTimeStep;
       onRender(this);
     }
+
+    if (onAfterFrame != null) {
+      onAfterFrame(this);
+    }
   }
 
   void _fullscreenChange(Event _) {
