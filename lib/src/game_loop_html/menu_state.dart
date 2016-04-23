@@ -53,7 +53,7 @@ abstract class MenuState extends GameLoopHtmlState {
     options[selected].onSelected();
   }
 
-  void onKeyDown(KeyboardEvent event) {
+  void onKeyDown(html.KeyboardEvent event) {
     event.preventDefault();
 
     switch (event.which) {

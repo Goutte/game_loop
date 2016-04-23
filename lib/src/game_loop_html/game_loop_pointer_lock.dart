@@ -25,7 +25,7 @@ class PointerLock {
 
   PointerLock(this.gameLoop) {
     gameLoop.element.onClick.listen(_onClick);
-    document.onPointerLockChange.listen(_onPointerLockChange);
+    html.document.onPointerLockChange.listen(_onPointerLockChange);
   }
 
   void requestLock() {
@@ -33,10 +33,10 @@ class PointerLock {
   }
 
   void requestUnlock() {
-    if (locked) document.exitPointerLock();
+    if (locked) html.document.exitPointerLock();
   }
 
-  void _onClick(Event event) {
+  void _onClick(html.Event event) {
     if (lockOnClick) {
       requestLock();
     }
@@ -45,9 +45,9 @@ class PointerLock {
   /// Does clicking on the element trigger a pointer lock?
   bool lockOnClick = true;
 
-  bool get locked => document.pointerLockElement == gameLoop.element;
+  bool get locked => html.document.pointerLockElement == gameLoop.element;
 
-  void _onPointerLockChange(Event event) {
+  void _onPointerLockChange(html.Event event) {
     if (gameLoop.onPointerLockChange != null) {
       gameLoop.onPointerLockChange(gameLoop);
     }

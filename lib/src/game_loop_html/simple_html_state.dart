@@ -39,7 +39,7 @@ class SimpleHtmlState extends GameLoopHtmlState {
    * Calling this handler has no affect. Override this handler to implement
    * your behaviour.
    */
-  void onKeyDown(KeyboardEvent event) { }
+  void onKeyDown(html.KeyboardEvent event) { }
 
   /**
    * Calling this handler has no affect. Override this handler to implement

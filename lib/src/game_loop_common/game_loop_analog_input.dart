@@ -26,6 +26,8 @@ class AnalogButton {
   final int buttonId;
   /** Value of analog button, between -1.0 and 1.0 */
   double value = 0.0;
+  /** Delta value of analog button */
+  double delta = 0.0;
   /** The frame when the button was last updated */
   int frame = 0;
   /** The time when the button was last updated */
@@ -36,8 +38,7 @@ class AnalogButton {
 /** A collection of analog input buttons */
 class AnalogInput {
   final GameLoop gameLoop;
-  final Map<int, AnalogButton> buttons =
-      new Map<int, AnalogButton>();
+  final Map<int, AnalogButton> buttons = new Map<int, AnalogButton>();
 
   /** Create a digital input that supports all buttons in buttonIds. */
   AnalogInput(this.gameLoop, List<int> buttonIds) {
@@ -72,4 +73,37 @@ class AnalogInput {
     }
     return button.value;
   }
+
+  double delta(int buttonId) {
+    AnalogButton button = buttons[buttonId];
+    if (button == null) {
+      return 0.0;
+    }
+    return button.delta;
+  }
+
+  void analogButtonEvent(AnalogButtonEvent event) {
+    AnalogButton button = buttons[event.buttonId];
+    if (button != null) {
+      button.frame = event.frame;
+      button.time = event.time;
+      //TODO (os): Implement rount to method
+      var normalizedValue = (button.value.roundToDouble() * 1000) / 1000;
+      button.delta = event.value - normalizedValue;
+      button.value = event.value;
+    }
+  }
+}
+
+class AnalogButtonEvent {
+  /** The button id */
+  final int buttonId;
+  /** Value of analog button, between -1.0 and 1.0 */
+  final double value;
+  /** The frame when the button was last updated */
+  final int frame;
+  /** The time when the button was last updated */
+  final double time;
+
+  AnalogButtonEvent(this.buttonId, this.value, this.frame, this.time);
 }

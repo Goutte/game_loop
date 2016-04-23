@@ -26,7 +26,7 @@ part of game_loop_html;
  */
 abstract class GameLoopHtmlState extends GameLoopState {
   void onFullScreenChange(GameLoop gameLoop);
-  void onKeyDown(KeyboardEvent event);
+  void onKeyDown(html.KeyboardEvent event);
   void onPointerLockChange(GameLoop gameLoop);
   void onRender(GameLoop gameLoop);
   void onResize(GameLoop gameLoop);
