@@ -22,43 +22,40 @@ part of game_loop_isolate;
 
 /** The game loop */
 class GameLoopIsolate extends GameLoop {
-  bool _initialized = false;
   bool _interrupt = false;
   int _frameCounter = 0;
   double _previousFrameTime;
   double _frameTime = 0.0;
-  double _nextResize = 0.0;
+  double get frameTime => _frameTime;
 
   double _accumulatedTime = 0.0;
+  /** Seconds of accumulated time. */
+  double get accumulatedTime => _accumulatedTime;
+
+  /** Frame counter value. Incremented once per frame. */
+  int get frame => _frameCounter;
+
   double _gameTime = 0.0;
+  double get gameTime => _gameTime;
 
   /** Current time. */
-  double get time => timeStampToSeconds(_watch.elapsedMicroseconds / 1000.0);
-  Stopwatch _watch;
-  Duration _duration;
+  double get time => GameLoop.timeStampToSeconds(_watch.elapsedMicroseconds / 1000.0);
+  Stopwatch _watch = new Stopwatch();
 
   /** Construct a new game loop */
-  GameLoopIsolate() : super() {
-    _watch = new Stopwatch();
-    _duration = new Duration(milliseconds: (updateTimeStep*1000.0).toInt());
-  }
-
-  void _processInputEvents() {
-  }
+  GameLoopIsolate() : super();
 
   double _timeLost = 0.0;
   void _update() {
     if (_previousFrameTime == null) {
       _frameTime = time;
       _previousFrameTime = _frameTime;
-      _processInputEvents();
-      new Timer(_duration, _update);
+      new Timer(new Duration(milliseconds: (updateTimeStep*1000.0).toInt()), _update);
       return;
     }
     if (_interrupt == true) {
       return;
     }
-    _frameCounter++;
     _previousFrameTime = _frameTime;
     _frameTime = time;
     double timeDelta = _frameTime - _previousFrameTime;
@@ -71,6 +68,7 @@ class GameLoopIsolate extends GameLoop {
     }
 
     while (_accumulatedTime >= updateTimeStep) {
+      _frameCounter++;
       _gameTime += updateTimeStep;
       processTimers();
       if (onUpdate != null) {
@@ -78,17 +76,36 @@ class GameLoopIsolate extends GameLoop {
       }
       _accumulatedTime -= updateTimeStep;
     }
-    new Timer(_duration, _update);
+
+    if (onAfterFrame != null) {
+      onAfterFrame(this);
+    }
+
+    // We may have to wait till we run the next frame to keep a stable frame rate
+    _wait();
+  }
+
+  void _wait() {
+    // Do we have to wait till we schedule the next frame?
+    if((time - _frameTime) < updateTimeStep) {
+      // While we now how long we have to wait till the next frame, we only wait 1 milliseconds.
+      // Experiments showed that waiting longer seems to cause problems with CPU sleep states.
+      new Timer(new Duration(milliseconds: 1), _wait);
+    } else {
+      Timer.run(_update);
+    }
   }
 
   /** Start the game loop. */
   void start() {
+    _interrupt = false;
     _watch.start();
     Timer.run(_update);
-
   }
+
   /** Stop the game loop. */
   void stop() {
+    _interrupt = true;
     _watch.stop();
   }
 }

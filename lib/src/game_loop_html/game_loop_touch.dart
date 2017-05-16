@@ -24,7 +24,7 @@ class _GameLoopTouchEvent {
   static const Move = 0x1;
   static const End = 0x2;
   static const Start = 0x3;
-  final TouchEvent event;
+  final html.TouchEvent event;
   final int type;
   _GameLoopTouchEvent(this.event, this.type);
 }
@@ -54,40 +54,71 @@ class GameLoopTouchSet {
   final GameLoopHtml gameLoop;
   GameLoopTouchSet(this.gameLoop);
 
-  void _addPosition(GameLoopTouch glTouch, Touch touch) {
+  void _addPosition(GameLoopTouch glTouch, html.Touch touch) {
     GameLoopTouchPosition position = new GameLoopTouchPosition(
-        touch.client.x,
-        touch.client.y,
+        touch.page.x,
+        touch.page.y,
         0,
         0,
         gameLoop.gameTime, gameLoop.frame);
     glTouch.positions.add(position);
   }
 
-  void _start(TouchEvent event) {
-    event.changedTouches.forEach((Touch touch) {
+  void _start(html.TouchEvent event) {
+    event.changedTouches.forEach((html.Touch touch) {
       GameLoopTouch glTouch = new GameLoopTouch(touch.identifier);
+      if (activeTouches[touch.identifier] != null) {
+        // Duplicate.
+        return;
+      }
+      assert(activeTouches[touch.identifier] == null);
       activeTouches[touch.identifier] = glTouch;
       _addPosition(glTouch, touch);
       if (gameLoop.onTouchStart != null) {
         gameLoop.onTouchStart(gameLoop, glTouch);
       }
     });
+    _verifyTouchList(event.touches);
   }
-  void _end(TouchEvent event) {
-    event.changedTouches.forEach((Touch touch) {
+  void _end(html.TouchEvent event) {
+    event.changedTouches.forEach((html.Touch touch) {
       var glTouch = activeTouches[touch.identifier];
+      if (glTouch == null) {
+        // Duplicate.
+        return;
+      }
+      assert(glTouch != null);
       activeTouches.remove(touch.identifier);
       _addPosition(glTouch, touch);
       if (gameLoop.onTouchEnd != null) {
         gameLoop.onTouchEnd(gameLoop, glTouch);
       }
     });
+    _verifyTouchList(event.touches);
   }
-  void _move(TouchEvent event) {
-    event.changedTouches.forEach((Touch touch) {
+  void _move(html.TouchEvent event) {
+    event.changedTouches.forEach((html.Touch touch) {
       var glTouch = activeTouches[touch.identifier];
       _addPosition(glTouch, touch);
+    });
+    _verifyTouchList(event.touches);
+  }
+  bool _inTouchList(List<html.Touch> touches, identifier) {
+    for (int i = 0; i < touches.length; i++) {
+      if (touches[i].identifier == identifier) {
+        return true;
+      }
+    }
+    return false;
+  }
+  _verifyTouchList(List<html.Touch> touches) {
+    if (touches.length != activeTouches.length) {
+        print('${touches.length} ${activeTouches.length}');
+    }
+    activeTouches.forEach((identifier, touch) {
+      if (!_inTouchList(touches, identifier)) {
+        print('Did not find $identifier');
+      }
     });
   }
 }

@@ -24,6 +24,12 @@ part of game_loop_common;
  * [maxAccumulatedTime] */
 typedef void GameLoopUpdateFunction(GameLoop gameLoop);
 
+/**
+ * Called once per physical frame, multiple [onUpdate] calls can happen in
+ * between.
+ */
+typedef void GameLoopAfterFrameFunction(GameLoop gameLoop);
+
 /** The game loop */
 abstract class GameLoop {
   /** The time step used for game updates. */
@@ -87,7 +93,7 @@ abstract class GameLoop {
   GameLoopTimer addTimer(GameLoopTimerFunction callback, double delay,
                          {bool periodic: false}) {
     var timer = new GameLoopTimer._internal(this, delay, callback,
-        isPeriodic: periodic);
+        periodic: periodic);
     _timers.add(timer);
     return timer;
   }
@@ -99,4 +105,15 @@ abstract class GameLoop {
 
   /** Called once per game logic frame. */
   GameLoopUpdateFunction onUpdate;
+
+  /** Called once per physical frame */
+  GameLoopAfterFrameFunction onAfterFrame;
+
+  GameLoopState _state;
+
+  GameLoopState get state => _state;
+                set state(GameLoopState state) {
+                  _state = state;
+                  onUpdate = state.onUpdate;
+                }
 }

@@ -20,8 +20,8 @@
 
 library game_loop_html;
 
-import 'dart:html';
-import 'dart:convert';
+import 'dart:js' as js;
+import 'dart:html' as html;
 import 'package:game_loop/game_loop_common.dart';
 export 'package:game_loop/game_loop_common.dart';
 
@@ -31,3 +31,6 @@ part 'src/game_loop_html/game_loop_mouse.dart';
 part 'src/game_loop_html/game_loop_gamepad.dart';
 part 'src/game_loop_html/game_loop_pointer_lock.dart';
 part 'src/game_loop_html/game_loop_touch.dart';
+part 'src/game_loop_html/game_loop_html_state.dart';
+part 'src/game_loop_html/simple_html_state.dart';
+part 'src/game_loop_html/menu_state.dart';

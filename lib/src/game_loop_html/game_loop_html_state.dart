@@ -18,12 +18,18 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library game_loop_common;
+part of game_loop_html;
 
-part 'src/game_loop_common/game_loop.dart';
-part 'src/game_loop_common/game_loop_timer.dart';
-part 'src/game_loop_common/game_loop_position_input.dart';
-part 'src/game_loop_common/game_loop_digital_input.dart';
-part 'src/game_loop_common/game_loop_analog_input.dart';
-part 'src/game_loop_common/game_loop_state.dart';
-part 'src/game_loop_common/simple_state.dart';
+/** A set of GameLoop handlers for HTML games.
+ *
+ * See GameLoopState for an example of creating and using a GameState.
+ */
+abstract class GameLoopHtmlState extends GameLoopState {
+  void onFullScreenChange(GameLoop gameLoop);
+  void onKeyDown(html.KeyboardEvent event);
+  void onPointerLockChange(GameLoop gameLoop);
+  void onRender(GameLoop gameLoop);
+  void onResize(GameLoop gameLoop);
+  void onTouchEnd(GameLoop gameLoop, GameLoopTouch touch);
+  void onTouchStart(GameLoop gameLoop, GameLoopTouch touch);
+}

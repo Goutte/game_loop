@@ -20,36 +20,57 @@
 
 part of game_loop_html;
 
-class PointerLock {
-  final GameLoopHtml gameLoop;
+typedef void MenuStateSelectedFunction();
 
-  PointerLock(this.gameLoop) {
-    gameLoop.element.onClick.listen(_onClick);
-    html.document.onPointerLockChange.listen(_onPointerLockChange);
-  }
+class MenuOption {
+  String text;
+  MenuStateSelectedFunction onSelected;
 
-  void requestLock() {
-    gameLoop.element.requestPointerLock();
-  }
+  MenuOption(this.text, this.onSelected);
+}
 
-  void requestUnlock() {
-    if (locked) html.document.exitPointerLock();
-  }
+abstract class MenuState extends GameLoopHtmlState {
+  List<MenuOption> options;
+  int selected;
 
-  void _onClick(html.Event event) {
-    if (lockOnClick) {
-      requestLock();
+  MenuState(this.options, [ this.selected = 0 ]);
+
+  _selectPrev() {
+    selected = selected - 1;
+    if (selected < 0) {
+      selected = options.length - 1;
     }
   }
 
-  /// Does clicking on the element trigger a pointer lock?
-  bool lockOnClick = true;
+  _selectNext() {
+    selected = selected + 1;
+    if (selected >= options.length){
+      selected = 0;
+    }
+  }
 
-  bool get locked => html.document.pointerLockElement == gameLoop.element;
+  _selectOption() {
+    options[selected].onSelected();
+  }
 
-  void _onPointerLockChange(html.Event event) {
-    if (gameLoop.onPointerLockChange != null) {
-      gameLoop.onPointerLockChange(gameLoop);
+  void onKeyDown(html.KeyboardEvent event) {
+    event.preventDefault();
+
+    switch (event.which) {
+      case Keyboard.DOWN:
+      case Keyboard.J:
+        _selectNext();
+        break;
+
+      case Keyboard.UP:
+      case Keyboard.K:
+        _selectPrev();
+        break;
+
+      case Keyboard.ENTER:
+      case Keyboard.SPACE:
+        _selectOption();
+        break;
     }
   }
 }

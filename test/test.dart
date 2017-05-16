@@ -28,6 +28,9 @@ void update(GameLoopHtml gameLoop) {
   if (mouseDown) {
     print('left down.');
   }
+  if(gameLoop.mouse.withinCanvas && (gameLoop.mouse.dx != 0 || gameLoop.mouse.dy != 0)) {
+    print('clampX: ${gameLoop.mouse.clampX}, clampY: ${gameLoop.mouse.clampY}');
+  }
   bool down = gameLoop.keyboard.isDown(Keyboard.D);
   double timePressed = gameLoop.keyboard.timePressed(Keyboard.D);
   double timeReleased = gameLoop.keyboard.timeReleased(Keyboard.D);
@@ -39,10 +42,10 @@ void update(GameLoopHtml gameLoop) {
     print('wheel: ${gameLoop.mouse.wheelDx} ${gameLoop.mouse.wheelDy}');
   }
   return;
-  print('frame: ${gameLoop.frame}');
-  print('gameTime: ${gameLoop.gameTime}');
-  print('time: ${gameLoop.time}');
-  print('dt: ${gameLoop.dt}');
+//  print('frame: ${gameLoop.frame}');
+//  print('gameTime: ${gameLoop.gameTime}');
+//  print('time: ${gameLoop.time}');
+//  print('dt: ${gameLoop.dt}');
 }
 
 void render(GameLoopHtml gameLoop) {
@@ -53,7 +56,32 @@ void render(GameLoopHtml gameLoop) {
   context.fillStyle = "rgb(255,0,0)";
   int posX = gameLoop.mouse.clampX == context.canvas.width ? gameLoop.mouse.clampX-1 : gameLoop.mouse.clampX;
   int posY = gameLoop.mouse.clampY == context.canvas.height ? gameLoop.mouse.clampY-1 : gameLoop.mouse.clampY;
-  context.fillRect(posX,posY,1,1);
+  context.fillRect(posX,posY,5, 5);
+}
+
+void resize(GameLoopHtml gameLoop) {
+  num widthToHeight = 16 / 9;
+  int newWidth = window.innerWidth;
+  int newHeight = window.innerHeight;
+  num newWidthToHeight = newWidth / newHeight;
+
+  if (newWidthToHeight > widthToHeight) {
+    newWidth = (newHeight * widthToHeight).floor();
+    container.style.height = '${newHeight}px';
+    container.style.width = '${newWidth}px';
+  } else {
+    newHeight = (newWidth / widthToHeight).floor();
+    container.style.width = '${newWidth}px';
+    container.style.height = '${newHeight}px';
+  }
+
+  int marginTop = (-newHeight / 2).floor();
+  int marginLeft = (-newWidth / 2).floor();
+  container.style.marginTop =  '${marginTop}px';
+  container.style.marginLeft =  '${marginLeft}px';
+
+  canvas.width = newWidth;
+  canvas.height = newHeight;
 }
 
 GameLoopTimer timer1;
@@ -73,16 +101,22 @@ void timerFired(GameLoopTimer timer) {
   }
 }
 
+final String containerID = '#gameContainer';
 final String canvasID = '#gameElement';
+DivElement container;
+CanvasElement canvas;
 CanvasRenderingContext2D context;
 
 void main() {
-  CanvasElement canvas = query(canvasID);
+  canvas = query(canvasID);
+  container = query(containerID);
   context = canvas.context2D;
 
   gameLoop = new GameLoopHtml(canvas);
   gameLoop.onUpdate = update;
   gameLoop.onRender = render;
+  gameLoop.onResize = resize;
+  resize(gameLoop);
   gameLoop.start();
   timer1 = gameLoop.addTimer(timerFired, 2.5);
   timer2 = gameLoop.addTimer(timerFired, 0.5);

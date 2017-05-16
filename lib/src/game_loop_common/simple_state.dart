@@ -18,12 +18,20 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library game_loop_common;
+part of game_loop_common;
 
-part 'src/game_loop_common/game_loop.dart';
-part 'src/game_loop_common/game_loop_timer.dart';
-part 'src/game_loop_common/game_loop_position_input.dart';
-part 'src/game_loop_common/game_loop_digital_input.dart';
-part 'src/game_loop_common/game_loop_analog_input.dart';
-part 'src/game_loop_common/game_loop_state.dart';
-part 'src/game_loop_common/simple_state.dart';
+/**
+ * SimpleState provides default implementations of all the common handlers
+ * which you can then override with your own implementations.
+ *
+ * Look at the documentation for `GameLoopState` for a description of each
+ * handler.
+ */
+class SimpleState extends GameLoopState {
+
+  /**
+   * Calling this handler has no affect. Override this handler to implement
+   * your behaviour.
+   */
+  void onUpdate(GameLoop gameLoop) { }
+}
