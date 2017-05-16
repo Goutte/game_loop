@@ -19,7 +19,7 @@
 */
 
 library game_loop_common;
-import 'dart:json';
+import 'dart:convert';
 
 part 'src/game_loop_common/game_loop.dart';
 part 'src/game_loop_common/game_loop_timer.dart';
