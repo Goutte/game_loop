@@ -50,8 +50,11 @@ class GameLoopHtml extends GameLoop {
   bool _resizePending = false;
   double _nextResize = 0.0;
 
+  double get frameTime => _frameTime;
+
   /** Seconds of accumulated time. */
   double get accumulatedTime => _accumulatedTime;
+  double get gameTime => _accumulatedTime;
 
   /** Frame counter value. Incremented once per frame. */
   int get frame => _frameCounter;

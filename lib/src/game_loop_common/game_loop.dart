@@ -87,7 +87,7 @@ abstract class GameLoop {
   GameLoopTimer addTimer(GameLoopTimerFunction callback, double delay,
                          {bool periodic: false}) {
     var timer = new GameLoopTimer._internal(this, delay, callback,
-        _periodic: periodic);
+        isPeriodic: periodic);
     _timers.add(timer);
     return timer;
   }
