@@ -100,6 +100,9 @@ class GameLoopTouchSet {
     event.changedTouches.forEach((html.Touch touch) {
       var glTouch = activeTouches[touch.identifier];
       _addPosition(glTouch, touch);
+      if (gameLoop.onTouchMove != null) {
+        gameLoop.onTouchMove(gameLoop, glTouch);
+      }
     });
     _verifyTouchList(event.touches);
   }
@@ -113,7 +116,7 @@ class GameLoopTouchSet {
   }
   _verifyTouchList(List<html.Touch> touches) {
     if (touches.length != activeTouches.length) {
-        print('${touches.length} ${activeTouches.length}');
+        print('Touches ${touches.length} != actives ${activeTouches.length}');
     }
     activeTouches.forEach((identifier, touch) {
       if (!_inTouchList(touches, identifier)) {

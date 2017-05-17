@@ -479,6 +479,8 @@ class GameLoopHtml extends GameLoop {
   GameLoopPointerLockChangeFunction onPointerLockChange;
   /** Called when a touch begins. */
   GameLoopTouchEventFunction onTouchStart;
+  /** Called when a touch moves. */
+  GameLoopTouchEventFunction onTouchMove;
   /** Called when a touch ends. */
   GameLoopTouchEventFunction onTouchEnd;
 
