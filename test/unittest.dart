@@ -33,6 +33,10 @@ class TestState extends GameLoopHtmlState {
     // TODO implement this method
   }
 
+  void onTouchMove(GameLoop gameLoop, GameLoopTouch touch) {
+    // TODO implement this method
+  }
+
   void onUpdate(GameLoop gameLoop) {
     // TODO implement this method
   }

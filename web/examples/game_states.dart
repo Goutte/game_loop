@@ -80,6 +80,9 @@ class CustomState extends GameLoopHtmlState {
     // IGNORED
   }
 
+  void onTouchMove(GameLoop gameLoop, GameLoopTouch touch) {
+    // IGNORED
+  }
   void onTouchStart(GameLoop gameLoop, GameLoopTouch touch) {
     // IGNORED
   }
@@ -116,6 +119,10 @@ class CanvasMenuState extends MenuState {
   }
 
   void onTouchEnd(GameLoop gameLoop, GameLoopTouch touch) {
+    // IGNORED
+  }
+
+  void onTouchMove(GameLoop gameLoop, GameLoopTouch touch) {
     // IGNORED
   }
 

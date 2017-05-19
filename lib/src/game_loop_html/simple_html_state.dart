@@ -30,49 +30,55 @@ part of game_loop_html;
 class SimpleHtmlState extends GameLoopHtmlState {
 
   /**
-   * Calling this handler has no affect. Override this handler to implement
+   * Calling this handler has no effect. Override this handler to implement
    * your behaviour.
    */
   void onFullScreenChange(GameLoop gameLoop) { }
 
   /**
-   * Calling this handler has no affect. Override this handler to implement
+   * Calling this handler has no effect. Override this handler to implement
    * your behaviour.
    */
   void onKeyDown(html.KeyboardEvent event) { }
 
   /**
-   * Calling this handler has no affect. Override this handler to implement
+   * Calling this handler has no effect. Override this handler to implement
    * your behaviour.
    */
   void onPointerLockChange(GameLoop gameLoop) { }
 
   /**
-   * Calling this handler has no affect. Override this handler to implement
+   * Calling this handler has no effect. Override this handler to implement
    * your behaviour.
    */
   void onRender(GameLoop gameLoop) { }
 
   /**
-   * Calling this handler has no affect. Override this handler to implement
+   * Calling this handler has no effect. Override this handler to implement
    * your behaviour.
    */
   void onResize(GameLoop gameLoop) { }
 
   /**
-   * Calling this handler has no affect. Override this handler to implement
+   * Calling this handler has no effect. Override this handler to implement
    * your behaviour.
    */
   void onTouchEnd(GameLoop gameLoop, GameLoopTouch touch) { }
 
   /**
-   * Calling this handler has no affect. Override this handler to implement
+   * Calling this handler has no effect. Override this handler to implement
+   * your behaviour.
+   */
+  void onTouchMove(GameLoop gameLoop, GameLoopTouch touch) { }
+
+  /**
+   * Calling this handler has no effect. Override this handler to implement
    * your behaviour.
    */
   void onTouchStart(GameLoop gameLoop, GameLoopTouch touch) { }
 
   /**
-   * Calling this handler has no affect. Override this handler to implement
+   * Calling this handler has no effect. Override this handler to implement
    * your behaviour.
    */
   void onUpdate(GameLoop gameLoop) { }

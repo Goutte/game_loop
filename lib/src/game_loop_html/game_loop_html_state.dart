@@ -30,6 +30,7 @@ abstract class GameLoopHtmlState extends GameLoopState {
   void onPointerLockChange(GameLoop gameLoop);
   void onRender(GameLoop gameLoop);
   void onResize(GameLoop gameLoop);
-  void onTouchEnd(GameLoop gameLoop, GameLoopTouch touch);
   void onTouchStart(GameLoop gameLoop, GameLoopTouch touch);
+  void onTouchMove(GameLoop gameLoop, GameLoopTouch touch);
+  void onTouchEnd(GameLoop gameLoop, GameLoopTouch touch);
 }

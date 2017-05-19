@@ -290,7 +290,7 @@ class GameLoopHtml extends GameLoop {
           _touchSet._move(touchEvent.event);
           break;
         default:
-          throw new StateError('Invalid _GameLoopTouchEven type.');
+          throw new StateError('Invalid _GameLoopTouchEvent type.');
       }
     }
     _touchEvents.clear();
@@ -499,7 +499,8 @@ class GameLoopHtml extends GameLoop {
     onPointerLockChange = state.onPointerLockChange;
     onRender = state.onRender;
     onResize = state.onResize;
-    onTouchEnd = state.onTouchEnd;
     onTouchStart = state.onTouchStart;
+    onTouchMove = state.onTouchMove;
+    onTouchEnd = state.onTouchEnd;
   }
 }
