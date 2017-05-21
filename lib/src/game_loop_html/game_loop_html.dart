@@ -128,7 +128,7 @@ class GameLoopHtml extends GameLoop {
   void _processInputEvents() {
     _processKeyboardEvents();
     _processMouseEvents();
-    _processGamepadsEvents();
+    //_processGamepadsEvents(); // buggy
     _processTouchEvents();
   }
 
